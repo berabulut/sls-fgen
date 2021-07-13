@@ -1,0 +1,6 @@
+node_modules
+todo
+serverless.yml
+
+.vscode
+.idea
