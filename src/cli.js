@@ -36,7 +36,7 @@ async function promptForMissingOptions(options) {
     funcName: "hello",
     funcPath: "handler.hello",
     method: "GET",
-    httpPath: "/hello",
+    httpPath: "hello",
     yamlPath: path.resolve(process.cwd(), "./serverless.yml"),
   };
 

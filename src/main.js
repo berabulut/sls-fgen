@@ -1,50 +1,24 @@
 import fs from "fs";
 import yaml from "js-yaml";
+import { generateHandler } from "../templates/javascript";
 
 export const createFunction = async (options) => {
-  // targetDirectory is where sls-fgen called from. Function path is related to targetDirectory .
-
-  options = {
-    ...options,
-    targetDirectory: process.cwd(),
-  };
-
-  console.log(options);
+  let { funcPath } = options;
 
   // Seperate file path from function name.
   // Example: handler.hello
   // filePath -> handler.js
   // funcName -> hello
-
-  let filePath =
-    options.funcPath.substring(0, options.funcPath.lastIndexOf(".")) + ".js";
-
-  let funcName = options.funcPath.substring(
-    options.funcPath.lastIndexOf(".") + 1,
-    options.funcPath.length
+  let filePath = funcPath.substring(0, funcPath.lastIndexOf(".")) + ".js";
+  let funcName = funcPath.substring(
+    funcPath.lastIndexOf(".") + 1,
+    funcPath.length
   );
 
-  let handler =
-    `'use strict'` +
-    `\n\n` +
-    `module.exports.${funcName} = async (event) => {
-    return {
-      statusCode: 200,
-      body: JSON.stringify(
-        {
-          message: 'Go Serverless v2.0! Your function executed successfully!',
-          input: event,
-        },
-        null,
-        2
-      ),
-    };
-  };`;
-
   updateYaml(options);
-
+  
   // Write function to a file
-  fs.writeFile(filePath, handler, function (err) {
+  fs.writeFile(filePath, generateHandler(funcName), function (err) {
     if (err) return console.log(err);
     console.log(`${funcName} > ${filePath}`);
   });
@@ -56,6 +30,7 @@ const updateYaml = (options) => {
 
   try {
     let file = yaml.load(fs.readFileSync(yamlPath, "utf8"));
+    // Add new function
     file = {
       ...file,
       functions: {
