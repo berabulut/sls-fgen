@@ -12,11 +12,11 @@ function parseArgumentsIntoOptions(rawArgs) {
       "--httpPath": String,
       "--yamlPath": String,
 
-      "-fn": "--funcName",
-      "-fp": "--funcPath",
+      "-n": "--funcName",
+      "-p": "--funcPath",
       "-m": "--method",
-      "-hp": "--httpPath",
-      "-yp": "--yamlPath",
+      "-h": "--httpPath",
+      "-y": "--yamlPath",
     },
     {
       argv: rawArgs.slice(2),
