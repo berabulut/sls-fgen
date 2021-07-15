@@ -1,7 +1,7 @@
 import fs from "fs";
 import chalk from "chalk";
 import yaml from "js-yaml";
-import { generateHandler } from "../languages/javascript";
+import { generateHandler } from "../languages/js";
 
 export const createFunction = async (options) => {
   let { template, funcPath } = options;

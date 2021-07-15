@@ -3,8 +3,9 @@ import arg from "arg";
 import path from "path";
 import chalk from "chalk";
 import inquirer from "inquirer";
+import launch from "launch-editor";
 import { createFunction } from "./main";
-import { templates } from "../languages/javascript/templates";
+import { templates } from "../languages/js/templates";
 
 function parseArgumentsIntoOptions(rawArgs) {
   const args = arg(
@@ -15,12 +16,15 @@ function parseArgumentsIntoOptions(rawArgs) {
       "--method": String,
       "--httpPath": String,
       "--yamlPath": String,
+      "--edit": Boolean,
 
+      "-t": "--template",
       "-n": "--funcName",
       "-p": "--funcPath",
       "-m": "--method",
       "-h": "--httpPath",
       "-y": "--yamlPath",
+      "-e": "--edit",
     },
     {
       argv: rawArgs.slice(2),
@@ -33,6 +37,7 @@ function parseArgumentsIntoOptions(rawArgs) {
     method: args["--method"],
     httpPath: args["--httpPath"],
     yamlPath: args["--yamlPath"],
+    edit: args["--edit"],
   };
 }
 
@@ -47,7 +52,6 @@ async function promptForMissingOptions(options) {
   };
 
   const questions = [];
-
   if (!options.template) {
     questions.push({
       type: "list",
@@ -119,6 +123,23 @@ async function promptForMissingOptions(options) {
 
 export async function cli(args) {
   let options = parseArgumentsIntoOptions(args);
+
+  // Launch VS Code on --edit arg
+  if (options.edit) {
+    launch(
+      path.resolve(__dirname, "../languages/js/templates.js"),
+      // try specific editor bin first (optional)
+      "code",
+      // callback if failed to launch (optional)
+      (fileName, errorMsg) => {
+        console.log(chalk.red(`Can't launch ${fileName} with VS Code!`));
+        console.log(chalk.red(errorMsg));
+      }
+    );
+
+    return;
+  }
+
   options = await promptForMissingOptions(options);
 
   if (!fs.existsSync(options.yamlPath)) {
