@@ -1,9 +1,10 @@
 import fs from "fs";
+import chalk from "chalk";
 import yaml from "js-yaml";
-import { generateHandler } from "../templates/javascript";
+import { generateHandler } from "../languages/javascript";
 
 export const createFunction = async (options) => {
-  let { funcPath } = options;
+  let { template, funcPath } = options;
 
   // Seperate file path from function name.
   // Example: handler.hello
@@ -16,11 +17,11 @@ export const createFunction = async (options) => {
   );
 
   updateYaml(options);
-  
+
   // Write function to a file
-  fs.writeFile(filePath, generateHandler(funcName), function (err) {
+  fs.writeFile(filePath, generateHandler(template, funcName), function (err) {
     if (err) return console.log(err);
-    console.log(`${funcName} > ${filePath}`);
+    console.log(chalk.green(`${funcName} > ${filePath}`));
   });
 };
 
@@ -51,6 +52,6 @@ const updateYaml = (options) => {
 
     fs.writeFileSync(yamlPath, yaml.dump(file));
   } catch (err) {
-    console.log(err);
+    console.log(chalk.red(err));
   }
 };
