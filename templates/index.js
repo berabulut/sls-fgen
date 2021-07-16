@@ -3,8 +3,6 @@ export { default as tsTemplates } from "./ts";
 
 import { jsTemplates, tsTemplates } from ".";
 
-export const languages = ["js", "ts"];
-
 /**
  * Generates a handler function.
  *

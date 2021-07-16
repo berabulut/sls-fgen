@@ -5,7 +5,7 @@ import chalk from "chalk";
 import inquirer from "inquirer";
 import launch from "launch-editor";
 import { createFunction } from "./main";
-import { languages, jsTemplates, tsTemplates } from "../templates";
+import { jsTemplates, tsTemplates } from "../templates";
 
 function parseArgumentsIntoOptions(rawArgs) {
   const args = arg(
