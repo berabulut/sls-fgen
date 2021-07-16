@@ -5,7 +5,7 @@ import chalk from "chalk";
 import inquirer from "inquirer";
 import launch from "launch-editor";
 import { createFunction } from "./main";
-import { jsTemplates, tsTemplates } from "../templates";
+import { languages, jsTemplates, tsTemplates } from "../templates";
 
 function parseArgumentsIntoOptions(rawArgs) {
   const args = arg(
@@ -17,7 +17,7 @@ function parseArgumentsIntoOptions(rawArgs) {
       "--method": String,
       "--httpPath": String,
       "--yamlPath": String,
-      "--edit": Boolean,
+      "--edit": String,
 
       "-l": "--language",
       "-t": "--template",
@@ -157,7 +157,7 @@ export async function cli(args) {
   // Launch VS Code on --edit arg
   if (options.edit) {
     launch(
-      path.resolve(__dirname, "../languages/js/templates.js"),
+      path.resolve(__dirname, `../templates/${options.edit}/index.js`),
       // try specific editor bin first (optional)
       "code",
       // callback if failed to launch (optional)
