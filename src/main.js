@@ -1,16 +1,17 @@
 import fs from "fs";
 import chalk from "chalk";
 import yaml from "js-yaml";
-import { generateHandler } from "../languages/js";
+import { generateHandler } from "../templates";
 
 export const createFunction = async (options) => {
-  let { template, funcPath } = options;
+  let { language, template, funcPath } = options;
 
   // Seperate file path from function name.
   // Example: handler.hello
   // filePath -> handler.js
   // funcName -> hello
-  let filePath = funcPath.substring(0, funcPath.lastIndexOf(".")) + ".js";
+  let filePath =
+    funcPath.substring(0, funcPath.lastIndexOf(".")) + `.${language}`;
   let funcName = funcPath.substring(
     funcPath.lastIndexOf(".") + 1,
     funcPath.length
@@ -19,10 +20,14 @@ export const createFunction = async (options) => {
   updateYaml(options);
 
   // Write function to a file
-  fs.writeFile(filePath, generateHandler(template, funcName), function (err) {
-    if (err) return console.log(err);
-    console.log(chalk.green(`${funcName} > ${filePath}`));
-  });
+  fs.writeFile(
+    filePath,
+    generateHandler(language, template, funcName),
+    function (err) {
+      if (err) return console.log(err);
+      console.log(chalk.green(`${funcName} > ${filePath}`));
+    }
+  );
 };
 
 // Update serverless.yml file

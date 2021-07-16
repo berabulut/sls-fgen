@@ -5,11 +5,12 @@ import chalk from "chalk";
 import inquirer from "inquirer";
 import launch from "launch-editor";
 import { createFunction } from "./main";
-import { templates } from "../languages/js/templates";
+import { jsTemplates, tsTemplates } from "../templates";
 
 function parseArgumentsIntoOptions(rawArgs) {
   const args = arg(
     {
+      "--language": String,
       "--template": String,
       "--funcName": String,
       "--funcPath": String,
@@ -18,6 +19,7 @@ function parseArgumentsIntoOptions(rawArgs) {
       "--yamlPath": String,
       "--edit": Boolean,
 
+      "-l": "--language",
       "-t": "--template",
       "-n": "--funcName",
       "-p": "--funcPath",
@@ -31,6 +33,7 @@ function parseArgumentsIntoOptions(rawArgs) {
     }
   );
   return {
+    language: args["--language"],
     template: args["--template"],
     funcName: args["--funcName"],
     funcPath: args["--funcPath"],
@@ -43,6 +46,7 @@ function parseArgumentsIntoOptions(rawArgs) {
 
 async function promptForMissingOptions(options) {
   const defaults = {
+    language: "js",
     template: "default",
     funcName: "hello",
     funcPath: "handler.hello",
@@ -52,13 +56,35 @@ async function promptForMissingOptions(options) {
   };
 
   const questions = [];
+  let answers = {};
+
+  if (!options.language) {
+    answers = await inquirer.prompt({
+      type: "list",
+      name: "language",
+      message: "Language:",
+      choices: ["js", "ts"],
+      default: defaults.language,
+    });
+  }
+
   if (!options.template) {
+    let choices;
+    if ((answers.language || options.language) === "js") {
+      choices = jsTemplates;
+    } else if ((answers.language || options.language) === "ts") {
+      choices = tsTemplates;
+    } else {
+      console.log(chalk.red("Not a valid language!"));
+      process.exit(1);
+    }
+
     questions.push({
       type: "list",
       name: "template",
-      message: "Pick a handler template!",
-      choices: Object.keys(templates),
-      default: defaults.method,
+      message: "Handler template!",
+      choices: Object.keys(choices),
+      default: defaults.template,
     });
   }
 
@@ -108,10 +134,14 @@ async function promptForMissingOptions(options) {
     });
   }
 
-  const answers = await inquirer.prompt(questions);
+  answers = {
+    ...answers,
+    ...(await inquirer.prompt(questions)),
+  };
 
   return {
     ...options,
+    language: options.language || answers.language,
     template: options.template || answers.template,
     funcName: options.funcName || answers.funcName,
     funcPath: options.funcPath || answers.funcPath,

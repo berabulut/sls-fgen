@@ -1,11 +1,3 @@
-2. Make templates customizable:
-
-- generateHandler should generate default one
-- option for changing default handler
-- create new handler
-- option for creating from custom templates   
-
-
 3. Unit tests
 4. Language supports
 5. New properties

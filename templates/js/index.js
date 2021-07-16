@@ -1,4 +1,4 @@
-export const templates = {
+const templates = {
   default: (name) => {
     return `module.exports.${name} = async (event) => {
 	return {
@@ -25,3 +25,6 @@ export const templates = {
 		`;
   },
 };
+
+
+export default templates
