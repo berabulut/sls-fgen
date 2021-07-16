@@ -8,7 +8,7 @@
     "sls-fgen": "bin/sls-fgen"
   },
   "scripts": {
-    "test": "mocha --require @babel/register"
+    "test": "nyc mocha --require @babel/register"
   },
   "keywords": [],
   "author": "",
@@ -32,7 +32,7 @@
     "@babel/preset-env": "^7.14.7",
     "@babel/register": "^7.14.5",
     "assert": "^2.0.0",
-    "chai": "^4.3.4",
-    "mocha": "^9.0.2"
+    "mocha": "^9.0.2",
+    "nyc": "^15.1.0"
   }
 }

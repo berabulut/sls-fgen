@@ -6,3 +6,5 @@ handler.js
 
 .vscode
 .idea
+
+.nyc_output
