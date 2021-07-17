@@ -1,10 +1,9 @@
-node_modules
+.vscode
+.idea
+.nyc_output
 
+node_modules
 
 serverless.yml
 handler.js
 
-.vscode
-.idea
-
-.nyc_output

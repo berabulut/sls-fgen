@@ -31,7 +31,7 @@ export const createFunction = async (options) => {
 };
 
 // Update serverless.yml file
-const updateYaml = (options) => {
+export const updateYaml = (options) => {
   const { yamlPath, funcName, funcPath, httpPath, method } = options;
 
   try {
@@ -57,6 +57,6 @@ const updateYaml = (options) => {
 
     fs.writeFileSync(yamlPath, yaml.dump(file));
   } catch (err) {
-    console.log(chalk.red(err));
+    throw chalk.red(err);
   }
 };

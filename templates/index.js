@@ -20,7 +20,6 @@ import chalk from "chalk";
  * @returns
  * A string contains the function.
  */
-
 export const generateHandler = (language, templateName, funcName) => {
   if (language === "js") {
     return jsTemplates[templateName](funcName);
