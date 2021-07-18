@@ -7,7 +7,7 @@ import launch from "launch-editor";
 import { createFunction } from "./main";
 import { jsTemplates, tsTemplates } from "../templates";
 
-function parseArgumentsIntoOptions(rawArgs) {
+export function parseArgumentsIntoOptions(rawArgs) {
   const args = arg(
     {
       "--language": String,
