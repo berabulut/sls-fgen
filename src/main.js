@@ -57,6 +57,6 @@ export const updateYaml = (options) => {
 
     fs.writeFileSync(yamlPath, yaml.dump(file));
   } catch (err) {
-    throw chalk.red(err);
+    throw err;
   }
 };

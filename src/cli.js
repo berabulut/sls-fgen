@@ -44,7 +44,7 @@ export function parseArgumentsIntoOptions(rawArgs) {
   };
 }
 
-async function promptForMissingOptions(options) {
+export async function promptForMissingOptions(options) {
   const defaults = {
     language: "js",
     template: "default",
@@ -162,8 +162,9 @@ export async function cli(args) {
       "code",
       // callback if failed to launch (optional)
       (fileName, errorMsg) => {
-        console.log(chalk.red(`Can't launch ${fileName} with VS Code!`));
-        console.log(chalk.red(errorMsg));
+        throw `Can't launch ${fileName} with VS Code!
+        ${errorMsg}
+        `;
       }
     );
 
@@ -173,8 +174,7 @@ export async function cli(args) {
   options = await promptForMissingOptions(options);
 
   if (!fs.existsSync(options.yamlPath)) {
-    console.log(chalk.red("YAML file doesn't exist!"));
-    return;
+    throw "YAML file doesn't exist!";
   }
 
   await createFunction(options);

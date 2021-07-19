@@ -42,8 +42,7 @@ export const functionCreatedCorrectly = async (options) => {
   );
 
   const tmpl = jsTemplates[template](funcName);
-  if (!template)
-    throw chalk.red("Couldn't find the template related to language");
+  if (!template) throw "Couldn't find the template related to language";
 
   let fileReadWithPromise = fs.promises;
 

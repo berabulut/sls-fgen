@@ -1,7 +1,11 @@
 import assert from "assert";
 import path from "path";
 import { updateYaml, createFunction } from "../src/main";
-import { parseArgumentsIntoOptions } from "../src/cli";
+import {
+  parseArgumentsIntoOptions,
+  promptForMissingOptions,
+  cli,
+} from "../src/cli";
 import { generateHandler, jsTemplates, tsTemplates } from "../templates";
 import { functionCreatedCorrectly, yamlFileUpdatedCorrectly } from "./helpers";
 
@@ -147,7 +151,7 @@ describe("#parseArgumentsIntoOptions", function () {
     "hello",
     "-y",
     "serverless.yml",
-  ]
+  ];
 
   const expectedOptions = {
     language: "js",
@@ -158,7 +162,6 @@ describe("#parseArgumentsIntoOptions", function () {
     httpPath: "hello",
     yamlPath: "serverless.yml",
   };
-
 
   it("should parse arguments into options", function () {
     const options = parseArgumentsIntoOptions(rawArgs);
@@ -171,6 +174,57 @@ describe("#parseArgumentsIntoOptions", function () {
     const options = parseArgumentsIntoOptions(rawFlags);
     if (JSON.stringify(options) !== JSON.stringify(expectedOptions)) {
       throw "Flags wasn't parsed correctly to options";
+    }
+  });
+});
+
+describe("#promptForMissingOptions", function () {
+  const expectedOptions = {
+    language: "js",
+    template: "default",
+    funcName: "hello",
+    funcPath: "handler.hello",
+    method: "get",
+    httpPath: "hello",
+    yamlPath: "serverless.yml",
+  };
+
+  it("shouldn't prompt for missing options", async function () {
+    const options = await promptForMissingOptions(expectedOptions);
+    if (JSON.stringify(options) !== JSON.stringify(expectedOptions)) {
+      throw "Options and expectedOptions should've been equal";
+    }
+  });
+});
+
+describe("#cli", function () {
+  const rawArgs = [
+    "",
+    "",
+    "--language=js",
+    "--template=default",
+    "--funcName=hello",
+    "--funcPath=handler.hello",
+    "--method=get",
+    "--httpPath=hello",
+    "--yamlPath=serverless.yml",
+    "--edit=js",
+  ];
+
+  it("should open template file", async function () {
+    await cli(rawArgs);
+  });
+
+  it("shouldn't find yaml file", async function () {
+    try {
+      let args = rawArgs;
+      args[8] = "--yamlPath=serverles.yml";
+      args.pop();
+      await cli(args);
+    } catch (err) {
+      if (err !== "YAML file doesn't exist!") {
+        throw `${err} Not the error this test expecting!`;
+      }
     }
   });
 });
