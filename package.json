@@ -1,6 +1,6 @@
 {
   "name": "sls-fgen",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A CLI to generate functions for serverless framework.",
   "bin": {
     "@berabulut/sls-fgen": "bin/sls-fgen",
