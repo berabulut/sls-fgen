@@ -26,5 +26,5 @@ const templates = {
   },
 };
 
+export default templates;
 
-export default templates
