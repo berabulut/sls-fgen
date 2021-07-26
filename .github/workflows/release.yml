@@ -12,8 +12,10 @@ jobs:
         with:
           node-version: '14.x'
           registry-url: 'https://registry.npmjs.org'
-      # - run: npm install
-      # - run: npm run test
+      - run: sudo snap install --classic code
+      - run: npm install
+      - run: "echo org: test > serverless.yml"
+      - run: npm run test
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
