@@ -6,7 +6,9 @@ Function generator for serverless framework that updates yaml file.
 
 ## Installation
 
-`npm install -g sls-fgen`
+```
+npm install -g sls-fgen
+```
 
 
 ## Usage
