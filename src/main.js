@@ -25,7 +25,7 @@ export const createFunction = async (options) => {
     generateHandler(language, template, funcName),
     function (err) {
       if (err) return console.log(err);
-      console.log(chalk.green(`${funcName} > ${filePath}`));
+      console.log(chalk.green(`${funcName} generated in ${filePath}`));
     }
   );
 };
