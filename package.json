@@ -1,6 +1,6 @@
 {
   "name": "sls-fgen",
-  "version": "1.0.51",
+  "version": "1.0.5",
   "description": "A CLI to generate functions for serverless framework.",
   "bin": "bin/sls-fgen",
   "scripts": {

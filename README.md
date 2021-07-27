@@ -4,12 +4,15 @@ Function generator for serverless framework that updates yaml file.
 
 ![demonstration](./record.gif)
 
-## Requirements 
+## Installation
 
-Pre-existing serverless.yml file.
+`npm install -g sls-fgen`
 
 
 ## Usage
+
+Requires pre-existing serverless.yml file.
+
 
 `➜ sls-fgen --yamlPath=./serverless.yml`
 
@@ -90,7 +93,7 @@ File path + name of the function that is going to be written to the file.
 
 If our language is JavaScript, CLI is going to create handler.js file within a function named hello.
 
-You can also specify a folder.
+You can also specify a folder. This tool cannot create folder. So the folder you are passing should already be existing.
 
 `➜ sls-fgen --funcPath=someFolder/handler.hello`
 
