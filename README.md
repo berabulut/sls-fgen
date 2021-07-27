@@ -122,7 +122,7 @@ You can also specify a folder. This tool cannot create folder. So the folder you
 ```
 ➜ sls-fgen --httpPath=user
 
-➜ sls-fgen -n user
+➜ sls-fgen -h user
 ```
 
 ### yamlPath 
