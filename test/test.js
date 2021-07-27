@@ -212,7 +212,7 @@ describe("#cli", function () {
   ];
 
   it("should open template file", async function () {
-    await cli(rawArgs);
+    await cli(rawArgs, "test");
   });
 
   it("shouldn't find yaml file", async function () {
@@ -220,7 +220,7 @@ describe("#cli", function () {
       let args = rawArgs;
       args[8] = "--yamlPath=serverles.yml";
       args.pop();
-      await cli(args);
+      await cli(args, "test");
     } catch (err) {
       if (err !== "YAML file doesn't exist!") {
         throw `${err} Not the error this test expecting!`;

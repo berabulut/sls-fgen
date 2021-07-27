@@ -4,6 +4,7 @@ import path from "path";
 import chalk from "chalk";
 import inquirer from "inquirer";
 import launch from "launch-editor";
+import defaults from "./defaults";
 import { createFunction } from "./main";
 import { jsTemplates, tsTemplates } from "../templates";
 
@@ -18,6 +19,7 @@ export function parseArgumentsIntoOptions(rawArgs) {
       "--httpPath": String,
       "--yamlPath": String,
       "--edit": String,
+      "--skip": Boolean,
 
       "-l": "--language",
       "-t": "--template",
@@ -27,6 +29,7 @@ export function parseArgumentsIntoOptions(rawArgs) {
       "-h": "--httpPath",
       "-y": "--yamlPath",
       "-e": "--edit",
+      "-s": "--skip",
     },
     {
       argv: rawArgs.slice(2),
@@ -41,19 +44,23 @@ export function parseArgumentsIntoOptions(rawArgs) {
     httpPath: args["--httpPath"],
     yamlPath: args["--yamlPath"],
     edit: args["--edit"],
+    skip: args["--skip"],
   };
 }
 
 export async function promptForMissingOptions(options) {
-  const defaults = {
-    language: "js",
-    template: "default",
-    funcName: "hello",
-    funcPath: "handler.hello",
-    method: "GET",
-    httpPath: "hello",
-    yamlPath: path.resolve(process.cwd(), "./serverless.yml"),
-  };
+  if (options.skip) {
+    return {
+      ...options,
+      language: options.language || defaults.language,
+      template: options.template || defaults.template,
+      funcName: options.funcName || defaults.funcName,
+      funcPath: options.funcPath || defaults.funcPath,
+      method: options.method || defaults.method,
+      httpPath: options.httpPath || defaults.httpPath,
+      yamlPath: options.yamlPath || defaults.yamlPath,
+    };
+  }
 
   const questions = [];
   let answers = {};
@@ -151,20 +158,36 @@ export async function promptForMissingOptions(options) {
   };
 }
 
-export async function cli(args) {
+export async function cli(args, mode) {
   let options = parseArgumentsIntoOptions(args);
 
   // Launch VS Code on --edit arg
   if (options.edit) {
+    launch(
+      path.resolve(__dirname, `./defaults.js`),
+      // try specific editor bin first (optional)
+      "code",
+      // callback if failed to launch (optional)
+      (fileName, errorMsg) => {
+        const msg = `Can't launch ${fileName} with VS Code! ${errorMsg}`;
+        if (mode === "test") throw msg;
+        console.log(chalk.red(msg));
+      }
+    );
+
+    if (options.edit === "defaults") {
+      return;
+    }
+
     launch(
       path.resolve(__dirname, `../templates/${options.edit}/index.js`),
       // try specific editor bin first (optional)
       "code",
       // callback if failed to launch (optional)
       (fileName, errorMsg) => {
-        throw `Can't launch ${fileName} with VS Code!
-        ${errorMsg}
-        `;
+        const msg = `Can't launch ${fileName} with VS Code! ${errorMsg}`;
+        if (mode === "test") throw msg;
+        console.log(chalk.red(msg));
       }
     );
 
@@ -174,7 +197,10 @@ export async function cli(args) {
   options = await promptForMissingOptions(options);
 
   if (!fs.existsSync(options.yamlPath)) {
-    throw "YAML file doesn't exist!";
+    const msg = "YAML file doesn't exist!";
+    if (mode === "test") throw msg;
+    console.log(chalk.red(msg));
+    return;
   }
 
   await createFunction(options);

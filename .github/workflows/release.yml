@@ -17,5 +17,7 @@ jobs:
       - run: "echo org: test > serverless.yml"
       - run: npm run test
       - run: npm publish
+      - run: yarn
+      - run: yarn publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

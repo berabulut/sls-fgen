@@ -1,15 +1,16 @@
 {
   "name": "sls-fgen",
-  "version": "1.0.3",
+  "version": "0.0.6",
   "description": "A CLI to generate functions for serverless framework.",
-  "bin": {
-    "@berabulut/sls-fgen": "bin/sls-fgen",
-    "sls-fgen": "bin/sls-fgen"
-  },
+  "bin": "bin/sls-fgen",
   "scripts": {
     "test": "nyc mocha --require @babel/register"
   },
-  "keywords": ["cli", "serverless-framework", "generate-function"],
+  "keywords": [
+    "cli",
+    "serverless-framework",
+    "generate-function"
+  ],
   "author": "Hüseyin Bera Bulut @berabulut",
   "license": "MIT",
   "dependencies": {
