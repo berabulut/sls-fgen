@@ -1,6 +1,6 @@
 {
   "name": "sls-fgen",
-  "version": "1.0.0",
+  "version": "1.0.51",
   "description": "A CLI to generate functions for serverless framework.",
   "bin": "bin/sls-fgen",
   "scripts": {
@@ -9,7 +9,10 @@
   "keywords": [
     "cli",
     "serverless-framework",
-    "generate-function"
+    "generate-function",
+    "generator",
+    "serverless",
+    "aws-lambda"
   ],
   "author": "Hüseyin Bera Bulut @berabulut",
   "license": "MIT",
