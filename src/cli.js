@@ -163,19 +163,19 @@ export async function cli(args, mode) {
 
   // Launch VS Code on --edit arg
   if (options.edit) {
-    launch(
-      path.resolve(__dirname, `./defaults.js`),
-      // try specific editor bin first (optional)
-      "code",
-      // callback if failed to launch (optional)
-      (fileName, errorMsg) => {
-        const msg = `Can't launch ${fileName} with VS Code! ${errorMsg}`;
-        if (mode === "test") throw msg;
-        console.log(chalk.red(msg));
-      }
-    );
 
     if (options.edit === "defaults") {
+      launch(
+        path.resolve(__dirname, `./defaults.js`),
+        // try specific editor bin first (optional)
+        "code",
+        // callback if failed to launch (optional)
+        (fileName, errorMsg) => {
+          const msg = `Can't launch ${fileName} with VS Code! ${errorMsg}`;
+          if (mode === "test") throw msg;
+          console.log(chalk.red(msg));
+        }
+      );
       return;
     }
 
