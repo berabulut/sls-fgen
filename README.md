@@ -166,5 +166,5 @@ const templates = {
 
 ```
 
-You can also add new languages by creating it's folder. Checkout **templates** folder.
+You can also add new languages by creating it's folder and editing [index.js](https://github.com/berabulut/sls-fgen/blob/main/templates/index.js) file. Checkout [templates](https://github.com/berabulut/sls-fgen/blob/main/templates) folder.
 
