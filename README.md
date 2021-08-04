@@ -23,15 +23,15 @@ OR
 `➜ sls-fgen -y ./serverless.yml`
 
 
-| Argument    | Flag        | Description |
-| ----------- | ----------- | ----------- |
-| language    | l           | Abbreviation of programming the language                          |
-| template    | t           | Template that function will be generated |
-| funcName    | n           | Name of the function that is going to be written to yaml file |
-| funcPath    | p           | File name and function name |
-| method      | m           | HTTP method |
-| httpPath    | h           | HTTP path |
-| yamlPath    | y           | Path of the yaml file |
+| Argument              | Flag        | Description |
+| ----------------------| ----------- | ----------- |
+| [language](#language) | l           | Abbreviation of programming the language |
+| [template](#template) | t           | Template that function will be generated |
+| [funcName](#funcName) | n           | Name of the function that is going to be written to yaml file |
+| [funcPath](#funcPath) | p           | File name and function name |
+| [method](#method)     | m           | HTTP method |
+| [httpPath](#httpPath) | h           | HTTP path |
+| [yamlPath](#httpPath) | y           | Path of the yaml file |
 
 
 You can also generate with defaults. You won't be asked for missing options.
@@ -139,8 +139,8 @@ Open template file related to language or edit defaults.
 
 | Language    | Folder      |
 | ----------- | ----------- |
-| JavaScript  | js          |
-| TypeScript  | ts          |
+| JavaScript  | [js](https://github.com/berabulut/sls-fgen/tree/main/templates/js) |
+| TypeScript  | [ts](https://github.com/berabulut/sls-fgen/tree/main/templates/ts) |
 
 You can open template files with these commands. **Visual Studio Code** must be installed for this operation.
 
